@@ -194,8 +194,13 @@ main (int argc, char **argv)
 
 	/* we got this far, so assume OK until we've measured */
 	result = STATE_OK;
-
-	xasprintf(&status_line, _("load average: %.2f, %.2f, %.2f"), la1, la5, la15);
+        
+        if (take_into_account_cpus == 1) {
+                asprintf(&status_line, _("load average: %.2f, %.2f, %.2f"), la1*numcpus, la5*numcpus, la15*numcpus);
+        }
+        else {
+		xasprintf(&status_line, _("load average: %.2f, %.2f, %.2f"), la1, la5, la15);
+        }
 
 	for(i = 0; i < 3; i++) {
 		if(la[i] > cload[i]) {
